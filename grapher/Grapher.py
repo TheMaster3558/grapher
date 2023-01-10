@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.use('Agg')
+
 import numpy as np
 import matplotlib.pyplot as plt
 import math
@@ -61,27 +64,15 @@ def log(x, base=10):
     '''
     return ln(x)/ln(base)
 
-def d(x, dx, func):
-    '''
-    d(x, dx, func)
-    x -> Range/Domain of the Function
-    dx -> How small each successive part is
-    func -> It is the function to be differenciated.
-    '''
-    dx = float(dx)
-    eq = f"({func.replace('x', f'(x + {dx})') + f' - {func}'})/dx"
-    # print(eq)
-    return eval(eq)
 
 class Grapher:
-    def __init__(self, fx, lb=-10, ub=10, y_lim=[None, None], step=0.01, label=True, grid=False, xlabel='x', title=None, lol="upper left", linestyle='-', mode='light', style=None):
+    def __init__(self, x_lim=[-50, 50], y_lim=[-50, 50], step=0.01, label=True, grid=True, xlabel='x', title=None, lol="upper left", linestyle='-', mode='light'):
         self.fx = fx
-        self.lb = float(lb)
-        self.ub = float(ub)
+        self.x_lim = x_lim
         self.y_lim = y_lim
-        self.step = float(step)
         self.grid = grid
         self.label = label
+        self.step = step
         self.x = np.arange(self.lb, self.ub, step=self.step)
         self.xlabel = xlabel
         self.ylabel = f'f ({xlabel})'
@@ -89,7 +80,6 @@ class Grapher:
         self.lol = lol
         self.linestyle = linestyle
         self.mode = mode
-        self.style = style
 
     def valid_function(self, f):
         '''
@@ -109,7 +99,6 @@ class Grapher:
         eq = eq.replace('cotx', 'cot(x)')
         eq = eq.replace('lnx', 'ln(x)')
         eq = eq.replace('logx', 'log(x)')
-        eq = eq.replace('d(', f'd(x, {self.step}, ')
 
         return eq
 
@@ -122,30 +111,46 @@ class Grapher:
         g = Grapher(['sin(x)', 'x - ((x**3)/factorial(3)) + (x**5)/factorial(5)'], lb=-3, ub=3, grid=True)
         g.plot()
         '''
-        if self.mode == 'dark':
-            plt.style.use('dark_background')
-
-        if self.style is not None:
-            plt.style.use(self.style)
+        fig, ax = plt.subplots()
+        ax.set_xlim(*self.y_lim)
+        ax.set_ylim(*self.y_lim)
 
         x = self.x
         for f in self.fx:
             eq = self.valid_function(f)
-            y = eval(eq)
-            plt.plot(x, y, self.linestyle, label=f'{self.ylabel} = {str(f)}')
+            env = {
+                'x': x,
+                'e': e,
+                'pi': pi,
+                'sin': sin,
+                'cos': cos,
+                'tan': tan,
+                'cosec': cosec,
+                'sec': sec,
+                'cot': cot,
+                'factorial': factorial,
+                'sqrt': sqrt,
+                'cbrt': cbrt,
+                'ln': ln,
+                'log': log
+            }
+            y = eval(eq, env)
+            ax.plot(x, y, self.linestyle, label=f'{self.ylabel} = {str(f)}')
         if self.label:
-            plt.legend(loc=self.lol)
+            ax.legend(loc=self.lol)
 
         if self.grid:
-            plt.grid()
+            ax.grid()
 
         plt.xlabel(self.xlabel)
         plt.ylabel(self.ylabel)
         if self.title is not None:
             plt.title(self.title)
-
-        plt.axis((self.lb, self.ub, self.y_lim[0], self.y_lim[1]))
-        plt.show()
+        
+        ax.axvline(0, c='k', lw=1)
+        ax.axhline(0, c='k', lw=1)
+        
+        return fig, ax
 
     def examples(self):
         '''
@@ -162,10 +167,10 @@ class Grapher:
         '''
         plt.text(-9, 3, """Hi, I am Shubham. Hope you are enjoying Grapher.
 Try plotting something crazy!
-How About x^x or sinx and its derivative.
+How About x^x or sinx.
 And now, you need not even calculate it.
-Just type d("x^x") or d("sinx").
-Well, close this window to see them.""")
+Well, close this window to see them.
+Note: this project has been forked by The Master""")
         plt.plot(np.arange(-10, 10), np.arange(-10, 10))
         plt.show()
         g = Grapher(['x^x', 'd("x^x")'], 0, 1.5)
@@ -178,3 +183,4 @@ if __name__ == '__main__':
     # g = Grapher(['cos(x)', '1 - ((x^2)/factorial(2)) + (x^4)/factorial(4)'], lb=-3, ub=3, label=True, lol='lower center', title='Taylor Polynomial for cos(x)')
     g = Grapher(['1 + 1/x', 'x'], step=0.001, y_lim=[-5, 5])
     g.plot()
+    
