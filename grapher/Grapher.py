@@ -73,7 +73,7 @@ class Grapher:
         self.grid = grid
         self.label = label
         self.step = step
-        self.x = np.arange(self.lb, self.ub, step=self.step)
+        self.x = np.arange(*self.x_lim, step=self.step)
         self.xlabel = xlabel
         self.ylabel = f'f ({xlabel})'
         self.title = title
