@@ -66,7 +66,7 @@ def log(x, base=10):
 
 
 class Grapher:
-    def __init__(self, x_lim=[-50, 50], y_lim=[-50, 50], step=0.01, label=True, grid=True, xlabel='x', title=None, lol="upper left", linestyle='-', mode='light'):
+    def __init__(self, fx, x_lim=[-50, 50], y_lim=[-50, 50], step=0.01, label=True, grid=True, xlabel='x', title=None, lol="upper left", linestyle='-', mode='light'):
         self.fx = fx
         self.x_lim = x_lim
         self.y_lim = y_lim
