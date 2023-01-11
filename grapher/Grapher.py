@@ -65,6 +65,24 @@ def log(x, base=10):
     return ln(x)/ln(base)
 
 
+env = {
+    'x': x,
+    'e': e,
+    'pi': pi,
+    'sin': sin,
+    'cos': cos,
+    'tan': tan,
+    'cosec': cosec,
+    'sec': sec,
+    'cot': cot,
+    'factorial': factorial,
+    'sqrt': sqrt,
+    'cbrt': cbrt,
+    'ln': ln,
+    'log': log
+}
+
+
 class Grapher:
     def __init__(self, fx, x_lim=[-50, 50], y_lim=[-50, 50], step=0.01, label=True, grid=True, xlabel='x', title=None, lol="upper left", linestyle='-', mode='light'):
         self.fx = fx
@@ -118,22 +136,6 @@ class Grapher:
         x = self.x
         for f in self.fx:
             eq = self.valid_function(f)
-            env = {
-                'x': x,
-                'e': e,
-                'pi': pi,
-                'sin': sin,
-                'cos': cos,
-                'tan': tan,
-                'cosec': cosec,
-                'sec': sec,
-                'cot': cot,
-                'factorial': factorial,
-                'sqrt': sqrt,
-                'cbrt': cbrt,
-                'ln': ln,
-                'log': log
-            }
             y = eval(eq, env)
             ax.plot(x, y, self.linestyle, label=f'{self.ylabel} = {str(f)}')
         if self.label:
