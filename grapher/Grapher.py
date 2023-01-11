@@ -129,7 +129,7 @@ class Grapher:
         g.plot()
         '''
         fig, ax = plt.subplots()
-        ax.set_xlim(*self.y_lim)
+        ax.set_xlim(*self.x_lim)
         ax.set_ylim(*self.y_lim)
 
         x = self.x
