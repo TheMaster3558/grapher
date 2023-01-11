@@ -66,7 +66,6 @@ def log(x, base=10):
 
 
 env = {
-    'x': x,
     'e': e,
     'pi': pi,
     'sin': sin,
@@ -136,7 +135,7 @@ class Grapher:
         x = self.x
         for f in self.fx:
             eq = self.valid_function(f)
-            y = eval(eq, env)
+            y = eval(eq, env | {'x': x})
             ax.plot(x, y, self.linestyle, label=f'{self.ylabel} = {str(f)}')
         if self.label:
             ax.legend(loc=self.lol)
