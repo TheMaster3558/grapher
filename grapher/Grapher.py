@@ -5,6 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
+from .safe import safe_eval
+
 e = math.e # e = 2.718281828459045
 pi = math.pi # pi = 3.141592653589793
 
@@ -135,7 +137,7 @@ class Grapher:
         x = self.x
         for f in self.fx:
             eq = self.valid_function(f)
-            y = eval(eq, env | {'x': x})
+            y = safe_eval(eq, env | {'x': x})
             ax.plot(x, y, self.linestyle, label=f'{self.ylabel} = {str(f)}')
         if self.label:
             ax.legend(loc=self.lol)
