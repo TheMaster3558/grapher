@@ -2,10 +2,11 @@ import ast
 import inspect
 from typing import Any, Set
 
-from .Grapher import env
 
-
-GRAPHER_ENV_FUNCTION_NAMES: Set[str] = {func.__name__ for func in env.values() if inspect.isfunction(func)}
+GRAPHER_ENV_NAMES: Set[str] = {
+    'e',
+    'pi', 'sin', 'cos', 'tan', 'cosec', 'sec', 'cot', 'factorial', 'sqrt', 'cbrt', 'ln', 'log'
+}
 
 
 def check_binop(operator: ast.BinOp) -> None:
@@ -23,7 +24,7 @@ def check_binop(operator: ast.BinOp) -> None:
 
 def check_call(operator: ast.Call) -> None:
     assert isinstance(operator.func, ast.Name)
-    if operator.func.id not in GRAPHER_ENV_FUNCTION_NAMES:
+    if operator.func.id not in GRAPHER_ENV_NAMES:
         raise SyntaxError
     for arg in operator.args:
         if isinstance(arg, ast.Call):
