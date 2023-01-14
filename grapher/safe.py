@@ -46,6 +46,6 @@ def validate_code(code: str) -> None:
             raise SyntaxError
 
 
-def safe_eval(code: str) -> Any:
+def safe_eval(code: str, *args: Any) -> Any:
     validate_code(code)
-    return eval(code)
+    return eval(code, *args)
