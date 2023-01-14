@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
-from .safe import safe_eval
+from .safe import safe_eval, GRAPHER_ENV_NAMES
 
 e = math.e # e = 2.718281828459045
 pi = math.pi # pi = 3.141592653589793
@@ -68,19 +68,7 @@ def log(x, base=10):
 
 
 env = {
-    'e': e,
-    'pi': pi,
-    'sin': sin,
-    'cos': cos,
-    'tan': tan,
-    'cosec': cosec,
-    'sec': sec,
-    'cot': cot,
-    'factorial': factorial,
-    'sqrt': sqrt,
-    'cbrt': cbrt,
-    'ln': ln,
-    'log': log
+    key: globals()[key] for key in GRAPHER_ENV_NAMES
 }
 
 
@@ -94,7 +82,7 @@ class Grapher:
         self.step = step
         self.x = np.arange(*self.x_lim, step=self.step)
         self.xlabel = xlabel
-        self.ylabel = f'f ({xlabel})'
+        self.ylabel = f'f({xlabel})'
         self.title = title
         self.lol = lol
         self.linestyle = linestyle
