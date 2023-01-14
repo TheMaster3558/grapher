@@ -2,10 +2,10 @@ import ast
 import inspect
 from typing import Any, Set
 
-import grapher
+from .Grapher import env
 
 
-GRAPHER_ENV_FUNCTION_NAMES: Set[str] = {func.__name__ for func in grapher.env.values() if inspect.isfunction(func)}
+GRAPHER_ENV_FUNCTION_NAMES: Set[str] = {func.__name__ for func in env.values() if inspect.isfunction(func)}
 
 
 def check_binop(operator: ast.BinOp) -> None:
